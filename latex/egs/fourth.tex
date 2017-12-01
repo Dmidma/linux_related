@@ -1,0 +1,51 @@
+\documentclass{article}
+
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+\author{Oussema Hidri}
+\title{My First {\LaTeX} Document}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Images}
+
+\begin{center}
+\includegraphics[width=\textwidth]{/home/dmidma/Pictures/get_it_apart.jpg}
+\end{center}
+
+\blindtext
+
+\blindtext
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{/home/dmidma/Pictures/get_it_apart.jpg}
+\caption{This is my dream aprt that I am going to get.}
+\end{figure}
+
+
+
+\blindtext
+
+\blindtext
+
+\blindtext
+
+\begin{wrapfigure}{r}{3in}
+\centering
+\includegraphics[width=2.5in]{/home/dmidma/Pictures/get_it_apart.jpg}
+\caption{Just a caption\label{lastPic}}
+\end{wrapfigure}
+
+
+\blindtext
+
+Last pic is at Figure \ref{lastPic}.
+
+\end{document}

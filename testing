@@ -1,0 +1,38 @@
+Testing is probably the most important phase for long-term support.
+
+1. Unit Testing:
+
+It is tesing one part or more component of the product.  
+This makes sure that the component is doing what it is intended to do.
+
+When a developer is confident that a particular part of the software is ready, he can write test cases to test functionality of this part of the software.
+
+
+2. Sanity Testing:
+
+It is a very basic check to see if all software components compile with each other without a problem.  
+This is just to make sure that developers have not defined conflicting or multiple functions or global variable definitions.
+
+
+3. Regression or Stress Testing:
+
+It is a process done in some projects to carry out a test for a longer period of time.  
+It can reveal some bugs in software related to memory leakage.  
+The point of this test is to detect any abnormal behaviors.
+
+Another potential problem in long-term operation is counter overflow.  
+This occurs when you increment a counter but forget to decrement it, resulting in an overflow.
+
+This testing process requires a very long period of time by its very nature.  
+The process should be continued as more components of the product are integrated.
+
+
+4. Functional Testing:
+
+It is carried out to make sure that the software is doing exactly what it is supposed to do.  
+This is done by people whose primary job is software testing.
+
+The software testers need to prepare a testing plan for each component of the software.  
+The software tester can prepare these test cases using functional specifications documents.  
+Each test case should include methodology used for testing and expected results.  
+The tester may also need to create a certain infrastructure or environment to test the functionality of a piece of code.

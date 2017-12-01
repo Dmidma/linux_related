@@ -1,0 +1,181 @@
+<h3 id="latex">LaTex:</h3>
+<p>Let's start by installing Latex. <a href="http://www.latex-project.org/get/">Here</a>!</p>
+<p>For <em>Debian</em> distros, we can install:</p>
+<pre><code>$ sudo apt-get install texlive</code></pre>
+<p>Once you write the <em>latex</em> file you can:</p>
+<pre><code>- `latex file.tex`: which will ouput _file.dvi_, which you can read it with `xdvi file.dvi`.
+- `pdflatex file.text`: which will output _file.pdf_.</code></pre>
+<p>In the .vimrc, we can add:</p>
+<pre><code>autocmd FileType tex map &lt;F5&gt;:w pdflatex %&lt;CR&gt;</code></pre>
+<blockquote>
+<p>Didn't work for me!</p>
+</blockquote>
+<p><a href="http://www.maths.tcd.ie/~dwilkins/LaTeXPrimer/">Here</a> we can find <em>Getting Started</em> tutorial. Also <a href="https://www.sharelatex.com/learn/Creating_a_document_in_LaTeX">here</a>.</p>
+<h4 id="intro">Intro:</h4>
+<p>Functions are called:</p>
+<pre><code>\documenclass{article}</code></pre>
+<blockquote>
+<p>If the function does not have parameters, we can ommit the <code>{}</code>.</p>
+</blockquote>
+<ul>
+<li>documentclass: specifies the text <em>format</em>.
+<ul>
+<li>article</li>
+<li>book</li>
+<li>handout</li>
+<li>...</li>
+</ul></li>
+</ul>
+<p>The text will be between:</p>
+<pre><code>\begin{document}
+
+
+This is some text!
+
+
+\end{document}</code></pre>
+<p>Using <code>evince</code> to read the pdf file, which will automatically update whenever the pdf file is changed.</p>
+<h4 id="title">Title:</h4>
+<p>You can specify title:</p>
+<pre><code>\author{Oussema Hidri}
+\title{My First {\LaTeX} Document}
+\date{Something}</code></pre>
+<p>Between the opening and closing tags:</p>
+<pre><code>\maketitle</code></pre>
+<p>2 things to notice:</p>
+<pre><code>- _Predifined_ LaTeX syntax.
+- _date_ function can take anything but can also be omitted.</code></pre>
+<p>To make paragraph you must make <strong>2 returns</strong>.</p>
+<h4 id="section-heading">Section Heading:</h4>
+<p>The number of sections will be automatically assigned when it's compiled.</p>
+<pre><code>\secton{Section Name}</code></pre>
+<h4 id="sub-section">Sub-Section:</h4>
+<pre><code>\subsection{Sub Section Name}</code></pre>
+<blockquote>
+<p>When you write the document, you just writhe skeleton, the way it looks will be changed later.</p>
+</blockquote>
+<h4 id="bold-text">Bold Text:</h4>
+<pre><code>\textbf{This is bold text!}</code></pre>
+<h4 id="italic-text">Italic Text:</h4>
+<pre><code>\textit{This is italic text!}</code></pre>
+<h4 id="emphatic-text">Emphatic Text:</h4>
+<pre><code>\emph{This is emphatic}</code></pre>
+<blockquote>
+<p>By default emphatic and italic text are the same, but you can change the look of the <em>former</em> one and keep the <em>later</em> as it is.</p>
+</blockquote>
+<h4 id="underline-text">Underline Text:</h4>
+<pre><code>\underline{This is Underline}</code></pre>
+<h4 id="quotation-text">Quotation Text:</h4>
+<pre><code>``This is a text in quotattion&#39;&#39;
+`Single also&#39;</code></pre>
+<h4 id="second-part">Second part:</h4>
+<ul>
+<li><p>Ordered List:</p>
+<pre><code>\begin{enumerate}
+\item item1
+\item item2
+\item item3
+\item item4
+\end{enumerate}</code></pre></li>
+<li><p>Unordered List:</p>
+<pre><code>\begin{itemize}
+\item item1
+\item item2
+\item item3
+\item item4
+\end{itemize}</code></pre></li>
+</ul>
+<blockquote>
+<p>If you want a sub-list, you just need to use the same syntax for a list.</p>
+</blockquote>
+<ul>
+<li><p>To use labels, you need to call the following wherever you want:</p>
+<pre><code>\label{list}</code></pre></li>
+</ul>
+<p>Eg.</p>
+<pre><code>\section{Lists\label{list}}</code></pre>
+<p>To call the label you use:</p>
+<pre><code>\ref{list}</code></pre>
+<blockquote>
+<p>Weirdely, you have you to compile it twice to get rid of the <code>??</code>. Read <a href="https://tex.stackexchange.com/questions/111280/understanding-how-references-and-labels-work">this</a>.</p>
+</blockquote>
+<h4 id="bibliographies">Bibliographies:</h4>
+<p>You can define a bibliography file where you can add information about resources.</p>
+<p>Eg.</p>
+<pre><code>@book{tag,
+    author = &quot;LastName, FirstName&quot;,
+    title = &quot;My First Book!&quot;,
+    year = &quot;2017&quot;,
+    publisher = &quot;Publisher&quot;
+}</code></pre>
+<blockquote>
+<p>You can also specify <code>author = &quot;FirstName LastName&quot;</code></p>
+</blockquote>
+<blockquote>
+<p>Install <strong>biber</strong>.</p>
+</blockquote>
+<p>Before the <strong>begin</strong> tag we add:</p>
+<pre><code>\usepackage[backend=biber]{biblatex}
+\addbibresource{pathto.bib}</code></pre>
+<p>Now to call them you need:</p>
+<pre><code>\printbibliography</code></pre>
+<p>This will not output anything, we need to add the <code>\textcite{}</code> command:</p>
+<pre><code>As \textcite{tagName} says, ...</code></pre>
+<blockquote>
+<p>Install <code>etoolbox</code> in your machine.</p>
+</blockquote>
+<p>If we compile this, nothing will happen! We need to run <code>$ biber filename</code>.<br />
+The filename shouldn't take any file extension.<br />
+After that we recompile it to get the wanted result.</p>
+<p>We can change the format of the bibliography by changing this:</p>
+<pre><code>\usepackage[backend=biber, style=authoryear-icomp]{biblatex}</code></pre>
+<blockquote>
+<p>You can also use <code>\parencite{tagName}</code>.</p>
+</blockquote>
+<h4 id="images">Images:</h4>
+<p>To be able to use images in you latex documents you need:</p>
+<pre><code>\usepackage{graphicx}</code></pre>
+<p>And to use an image:</p>
+<pre><code>\includegraphics{pathtoimage.png}</code></pre>
+<p>By default, it will be inserted with the original size.</p>
+<p>You can set the width and let the height automatically adjust (you can also add the height)</p>
+<pre><code>\includegraphics[width=5in]{pathtoimage.png}</code></pre>
+<p>With Height and <em>keepaspectratio</em>:</p>
+<pre><code>\includegraphics[width=5in,height=6in,keepaspectratio]{pathtoimage.png}</code></pre>
+<p>The last command will make sure that the image is not stretched.</p>
+<p>You can use: - scale=0.5 // to scale it. - width=// make sure to fit it as text size. - width=0.7// resize upon the textwidth - angle=33 // change the angle of the image</p>
+<p>You can center it by surrounding it in:</p>
+<pre><code>\begin{center}
+\end{center}</code></pre>
+<blockquote>
+<p>Use package <strong>blindtext</strong> and call to fill your document with text.</p>
+</blockquote>
+<h4 id="figures">Figures:</h4>
+<p>You use figures the same way you use images except that you need to surround them in:</p>
+<pre><code>\begin{figure}
+\end{figure}</code></pre>
+<p>This will automatically enumerate the figure.</p>
+<p>Now after you call the image, you can add a caption:</p>
+<pre><code>\caption{This is a caption}</code></pre>
+<p>By default, LaTeX will try to set the figures in the best suited places.<br />
+To override this behavior, you need to:</p>
+<pre><code>\begin{figure}[h]</code></pre>
+<p>You can change the parameter to: - t: to set the figure at the top of the page - b: to set the figure at the bottom of the page - p: to set the figure at a separate page.</p>
+<p>To wrap up text around figures, we need to use:</p>
+<pre><code>\usepackage{wrapfig}</code></pre>
+<p>To use it, we need to surround the image with:</p>
+<pre><code>\begin{wrapfigure}
+\end{wrapfigure}</code></pre>
+<p>You can add some parameters to it:</p>
+<pre><code>\begin{wrapfigure}{r}{3in}
+\centering
+\includegraphics[width=2.5in]{pathtoimage.png}
+\caption{Another Caption\label{lastpic}}
+\end{wrapfigure}</code></pre>
+<ul>
+<li><strong>r</strong> for setting the image at the right, and <strong>3in</strong> for setting the width of the text.</li>
+</ul>
+<blockquote>
+<p>the <code>\centering</code> will add a space between the figure and the text.</p>
+</blockquote>
+<p>With figures, you can use the label and ref commands!</p>

@@ -1,0 +1,144 @@
+
+Introduction:
+
+    Apache breaks its functionality and components into units that can be customized and configured independently. 
+The basic unit that describes an individual site or domain is called a "virtual host".
+
+These designations allow the administrator to use one server to host multiple domains or sites off of a single interface or IP by using a matching mechanism. 
+This is relevant to anyone looking to host more than one site off of a single VPS.
+
+Each domain that is configured will direct the visitor to a specific directory holding that site's information, never indicating that the same server is also responsible for other sites. 
+This scheme is expandable without any software limit as long as your server can handle the load.
+
+
+Prerequisites:
+
+    You will need to have Apache installed in order to be able to set VPS.
+
+
+
+Step One - Create the Directory Structure:
+
+    The first step is to make a directory structure that will hold the site data.
+
+
+Our document root (the top-level directory that Apache looks at to find content to serve) will be set to individual directories under the /var/www directory.
+
+For the sake of discussion we will make a virtual host for "example.com" and another for "test.com".
+
+We will create a directory under /var/www for both of the virtual hosts we plan on making.
+Within each of these directories, we will create a public_html folder that will hold our actual files. 
+This gives us some flexibility in our hosting.
+
+    sudo mkdir -p /var/www/example.com/public_html
+    sudo mkdir -p /var/www/test.com/public_html
+
+
+
+
+Step Two — Grant Permissions:
+
+   Now we have the directory structure for our files, but they are owned by our root user.
+We need to grant them ownership:
+
+    sudo chown -R $USER:$USER /var/www/example.com/public_html
+    sudo chown -R $USER:$USER /var/www/test.com/public_html
+
+
+We should also modify our permissions a little bit to ensure that read access is permitted to the general web directory and all of the files and folders it contains so that pages can be served correctly:
+
+    sudo chmod -R 755 /var/www
+
+
+
+Step Three - Create Demo Pages for Each Virtual Host:
+
+   We have our directory structure in place. Let's create some content to serve.
+
+For testing we will create an index.html file under each public_html direcotry, which will contains simple HTML code.
+
+After this step, you will have the pages necessary to test the virtual host configuration.
+
+
+
+Step Four - Create New Virtual Host Files:
+
+    Virtual host files are the files that specify the configuration of our virtual hosts and dictate how the Apache web server will respond to various domain requests.
+
+Apache comes with a default virtual host file called 000-default.conf that we can use as a jumping off point. 
+We are going to copy it over to create a virtual host file for each of our domains.
+
+
+Start by copying the file for the first domain:
+
+    sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf
+
+The file will look something like this:
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+This virtual host section matches any requests that are made on port 80. (Default HTTP port)
+
+
+1- change the ServerAdmin directive to an email that the site administrator can receive emails through.
+2- Add ServerName, which will establishes the base domain that should match for this virtual host definition.
+3- Add ServerAlias, defines further names that should match as if they were the base name.
+4- Alter the DocumentRoot directive to reflect the directory of the website.
+
+What we will end up with:
+
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example.com/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+
+Step Five - Enable the New Virtual Host Files:
+
+    Now that we have created our virtual host files, we must enable them.
+We can use the a2ensite tool to enable our sites:
+
+    sudo a2ensite example.com.conf
+
+Now restart Apache:
+
+    sudo service apache2 restart
+
+
+
+
+Step Six - Set Up Local Hosts File:
+
+    If you haven't been using actual domain names, you can at least test the functionaliy of this process by modifying the "hosts" file on your computer.
+
+Make sure you are operating on your local computer for these steps and not your VPS server.
+
+For the domains that I used in this guide, assuming that my VPS IP address is 111.111.111.111, I could add the following lines to the bottom of my hosts file:
+
+
+127.0.0.1   localhost
+127.0.1.1   guest-desktop
+111.111.111.111 example.com
+111.111.111.111 test.com
+
+
+This will direct any requests for example.com and test.com on our computer ans send them to our server at 111.111.111.111.
+This is what we want if we are not actually the owners of these domains in order to test our virtual hosts.
+
+
+
+
+
+-> There is no software limit on the number of domain names Apache can handle, so feel free to make as many as your server is capable of handling.

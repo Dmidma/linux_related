@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage[margin=1in]{geometry}
+
+\titleformat{\section}[frame]
+{\huge}
+{}
+{0.25em}
+{\filcenter\bfseries\lowercase}
+
+
+\titleformat{\subsection}
+{\bfseries\Large}
+{\hspace{.2in}$\bullet$}
+{0em}
+{}
+
+\titleformat{\subsubsection}[runin]
+{\bfseries}
+{\hspace{.2in}$\bullet$}
+{0em}
+{}[---]
+
+
+\titlespacing{\subsubsection}
+{0em}{.25em}{0em}
+
+\renewcommand{\maketitle}{
+\begin{center}
+{\huge\bfseries
+\theauthor}
+
+\vspace{.25em}
+
+d.oussema.d@gmail.com --- http://reddit.com
+\end{center}
+}
+
+
+\begin{document}
+
+\title{R\'esum\'e}
+\author{Oussema Hidri}
+
+\maketitle
+
+
+\section{Technical Skills}
+
+\subsection{Work Flow}
+tmux, vim, rsync, git.
+
+\subsection{Languages}
+
+\subsubsection{Programming} 
+
+C, C++, JavaScript, Java.
+
+\subsubsection{Markup}
+
+{\LaTeX}, HTML, CSS 
+
+\subsubsection{Scripting} 
+
+Python, Shell
+
+\section{General Skills}
+
+\section{Education}
+
+\section{Job Experience}
+
+
+\end{document}
