@@ -31,18 +31,36 @@
 
 \setcounter{secnumdepth}{-1}
 \RequirePackage[hmargin=1.25cm,vmargin=1.25cm,twocolumn,columnsep=1.25cm]{geometry}
-\RequirePackage{bookman,etoolbox,hyperref,marvosym,needspace,tabularx,xcolor}
+\RequirePackage{bookman,etoolbox,marvosym,needspace,tabularx,xcolor}
+\RequirePackage{fontawesome}
+\RequirePackage{ragged2e}
+% Needed to handle list environment
+\RequirePackage{enumitem}
+% Needed to manage math fonts
+\RequirePackage[math-style=TeX]{unicode-math}
+
+
+\RequirePackage{hyperref}
+\hypersetup{
+colorlinks=true,
+linkcolor=red,
+allbordercolors=white
+}
+
+
 
 
 \pagestyle{empty}
 \setlength\parindent{0pt}
 \color[HTML]{303030} % Default foreground color
-\definecolor{link}{HTML}{506060} % Hyperlinks
+\definecolor{link}{HTML}{39719B} % Hyperlinks
 \hypersetup{colorlinks,breaklinks,urlcolor=link,linkcolor=link}
 \setkomafont{disposition}{\color[HTML]{801010}}
 \setkomafont{section}{\scshape\Large\mdseries}
 \setkomafont{part}{\fontfamily{pzc}\selectfont\Huge}
 
+
+\usepackage[default]{sourcesanspro}
 % In tccv \part must contain the subject of the curriculum vitae.
 % The command will start a new page and output in onecolumn the
 % subject (first and last name) with the hardcoded text
@@ -54,6 +72,24 @@
 	{\usekomafont{part} #1} 
     \medskip
     \end{center}]}
+
+
+
+% Define an environment for cvitems(for cventry)
+\newenvironment{cvitems} {
+    \fontsize{9pt}{1em}
+    \vspace{-4mm}
+    \begin{justify}
+        \begin{itemize}[leftmargin=2ex, nosep, noitemsep]
+            \setlength{\parskip}{0pt}
+            \renewcommand{\labelitemi}{\bullet}
+    }{
+\end{itemize}
+\end{justify}
+\vspace{-2mm}
+}
+
+
 
 % Overrides the \section command to capitalize every
 % word for cosmetic purposes and draws a rule under it.
@@ -73,28 +109,30 @@
 % \personal[optional: web site without scheme (no http:// prefix)]
 %          {address}{phone number}{email}
 % ]|
-\newcommand\personal[4][]{%
+\newcommand\personal[6][]{%
     \needspace{0.5\textheight}%
     \newdimen\boxwidth%
     \boxwidth=\dimexpr\linewidth-2\fboxsep\relax%
-    \colorbox[HTML]{F5DD9D}{%
+    % \colorbox[HTML]{F5DD9D}{%
+    \colorbox[HTML]{E8F4FF}{%
     \begin{tabularx}{\boxwidth}{c|X}
     \Writinghand & {#2}\smallskip\\
     \Telefon     & {#3}\smallskip\\
-    \Letter      & \href{mailto:#4}{#4}
+    \Letter      & \href{mailto:#4}{#4}\\
+    \faGithub    & \href{https://github.com/dmidma}{#5}\\
+    \faLinkedin & \href{https://www.linkedin.com/in/oussema-hidri-5b87a9a1/}{#6}
     \ifstrempty{#1}{}{\smallskip\\ \Lightning & \href{http://#1}{#1}}
     \end{tabularx}}}
 
 \newenvironment{eventlist}{
-    \newcommand\eventbegin[1]{
-	    {\Large\textit{##1}}
-    	\medskip
+    \newcommand\eventbegin[2]{
+	    {\Large\textit{##1}\smallskip}\\
+        {\ifstrempty{##2}{\medskip}{\raggedleft##2\medskip\\}}
     }
-    
-    \newcommand\eventend[2]{
-        \smallskip
+    \raggedright 
+    \newcommand\eventend[1]{
         {\raggedleft\textsc{##1}\\[1pt]}
-        {\ifstrempty{##2}{\medskip}{##2\\[2pt]}}
+        \medskip
     }
 }
 
@@ -105,13 +143,25 @@
 % |[
 % \item[optional: what has been achieved]{years}{subject}{notes}
 % ]|
+
 \newenvironment{yearlist}{%
-    \renewcommand\item[4][]{%
-	{\textsc{##2}} & {\bfseries ##3} \\
-	\ifstrempty{##1}{}{& {\textsc{##1}} \\}
-	& {\textit{##4}}\medskip\\}
-    \tabularx{\linewidth}{rX}}
-    {\endtabularx}
+    \renewcommand\item[5]{%
+            \raggedright { \bfseries ##1}
+    \smallskip\\
+    {\ifstrempty{##5}{\textit{##4}}{\textit{\href{##5}{##4}}}}
+    { ##3 } \\
+    {\raggedleft\textsc{##2}\\[1pt]\medskip}
+	}
+}
+
+
+%\newenvironment{yearlist}{%
+%    \renewcommand\item[4][]{%
+%	{\textsc{##2}} & {\bfseries ##3} \\
+%	\ifstrempty{##1}{}{& {\textsc{##1}} \\}
+%	& {\textit{##4}}\medskip\\}
+%    \tabularx{\linewidth}{rX}}
+%    {\endtabularx}
 
 
 \newenvironment{courseslist}{%
@@ -124,6 +174,10 @@
     {\vskip-\lastskip\bfseries\hspace{5mm}##3}
     \bigskip}
 }
+
+
+
+
 
 % Use only \item inside this environment: no other macros
 % are allowed:
